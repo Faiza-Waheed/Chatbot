@@ -2,7 +2,6 @@
 transformers
 accelerate
 huggingface-hub
-sqlite3
 
 #chroma
 chromadb
