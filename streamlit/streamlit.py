@@ -7,8 +7,10 @@ from langchain_community.vectorstores import Chroma
 from langchain.chains import ConversationalRetrievalChain
 from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
 from openai import OpenAI
-from io import BytesIO
 import os
+from io import BytesIO
+import tempfile
+
 
 # Sidebar section
 st.sidebar.title("Settings")
@@ -41,8 +43,14 @@ if uploaded_file and question:
     file_type = uploaded_file.name.split(".")[-1]
     if file_type == "pdf":
         #loader = PyPDFLoader(uploaded_file)
-        pdf_file = BytesIO(uploaded_file.read())
-        loader = PyPDFLoader(pdf_file)
+        with tempfile.NamedTemporaryFile(delete=False, suffix='.pdf') as temp_file:
+            temp_file.write(uploaded_file.read())
+            temp_file_path = temp_file.name
+        
+        loader = PyPDFLoader(temp_file_path)
+        
+        #pdf_file = BytesIO(uploaded_file.read())
+        #loader = PyPDFLoader(pdf_file)
     elif file_type == "txt":
         loader = TextLoader(uploaded_file)
     elif file_type == "md":
