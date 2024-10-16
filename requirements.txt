@@ -1,9 +1,10 @@
 chroma
 h5py
 #keras
-langchain
+
 langchain-community
-langchain-document_loaders
+langchain
+
 markdown-it-py
 #matplotlib-inline
 #numpy
@@ -14,6 +15,7 @@ pdf2image
 #pillow
 #pipreqs
 #psutil
+pydantic
 pypdf
 pypdf[crypto]
 requests
