@@ -2,6 +2,8 @@ chroma
 h5py
 #keras
 langchain
+langchain-community
+langchain-document_loaders
 markdown-it-py
 #matplotlib-inline
 #numpy
