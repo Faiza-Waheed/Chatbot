@@ -1,5 +1,5 @@
 import streamlit as st
-from langchain_community.document_loaders import PyPDFLoader, TextLoader, MarkdownLoader
+from langchain_community.document_loaders import PyPDFLoader, TextLoader #, MarkdownLoader
 from langchain.text_splitter import CharacterTextSplitter
 from langchain.embeddings import HuggingFaceEmbeddings
 from langchain.llms import HuggingFacePipeline
@@ -43,7 +43,7 @@ if uploaded_file and question:
     elif file_type == "txt":
         loader = TextLoader(uploaded_file)
     elif file_type == "md":
-        loader = MarkdownLoader(uploaded_file)
+        loader = TextLoader(uploaded_file)
     else:
         st.error("Unsupported file type.")
         st.stop()
