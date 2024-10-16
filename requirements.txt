@@ -4,6 +4,7 @@ accelerate
 huggingface-hub
 
 chroma
+chromadb
 h5py
 #keras
 
@@ -31,6 +32,7 @@ streamlit
 #tensorflow
 tinycss2
 toml
+torch
 #torch
 #torchvision
 
