@@ -1,11 +1,11 @@
 import streamlit as st
-from langchain_huggingface import HuggingFaceEmbeddings
-from langchain_community.document_loaders import PyPDFLoader, TextLoader
+from langchain_community.document_loaders import PyPDFLoader, TextLoader #, MarkdownLoader
 from langchain.text_splitter import CharacterTextSplitter
 from langchain_community.embeddings import HuggingFaceEmbeddings
+from langchain_community.llms import HuggingFacePipeline
 from langchain_community.vectorstores import Chroma
 from langchain.chains import ConversationalRetrievalChain
-from transformers import AutoTokenizer, AutoModel, pipeline
+from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
 from openai import OpenAI
 import os
 from io import BytesIO
@@ -17,7 +17,7 @@ from huggingface_hub import login
 st.sidebar.title("Settings")
 
 # Let the user choose between OpenAI or Hugging Face
-llm_choice = st.sidebar.selectbox("Choose LLM", ("OpenAI GPT-3.5", "Hugging Face MiniLM"))
+llm_choice = st.sidebar.selectbox("Choose LLM", ("OpenAI GPT-3.5", "Hugging Face Mistral"))
 
 # If OpenAI is chosen, capture the API key
 if llm_choice == "OpenAI GPT-3.5":
@@ -43,11 +43,15 @@ if uploaded_file and question:
     # Load the document based on the file type
     file_type = uploaded_file.name.split(".")[-1]
     if file_type == "pdf":
+        #loader = PyPDFLoader(uploaded_file)
         with tempfile.NamedTemporaryFile(delete=False, suffix='.pdf') as temp_file:
             temp_file.write(uploaded_file.read())
             temp_file_path = temp_file.name
         
         loader = PyPDFLoader(temp_file_path)
+        
+        #pdf_file = BytesIO(uploaded_file.read())
+        #loader = PyPDFLoader(pdf_file)
     elif file_type == "txt":
         loader = TextLoader(uploaded_file)
     elif file_type == "md":
@@ -83,20 +87,20 @@ if uploaded_file and question:
         # Get the response content
         answer = response.choices[0].message.content
 
-    elif llm_choice == "Hugging Face MiniLM":
-        # Hugging Face MiniLM model
+    elif llm_choice == "Hugging Face Mistral":
+        # Hugging Face Mistral model
 
-        # Login with Hugging Face API key
         login(token=st.secrets['huggingface']['api_key'])
 
-        # Load MiniLM for embeddings
-        embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
-        vectorstore = Chroma.from_documents(docs, embeddings)
+        tokenizer = AutoTokenizer.from_pretrained("mistralai/Mistral-7B-v0.1")
+        model = AutoModelForCausalLM.from_pretrained("mistralai/Mistral-7B-v0.1")
 
         # Create a pipeline for generating responses
-        tokenizer = AutoTokenizer.from_pretrained("microsoft/MiniLM-L12-H384-uncased")
-        model = AutoModel.from_pretrained("microsoft/MiniLM-L12-H384-uncased")
         hf_pipeline = pipeline("text-generation", model=model, tokenizer=tokenizer)
+
+        # Initialize embeddings and vector store
+        embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
+        vectorstore = Chroma.from_documents(docs, embeddings)
 
         # Create the conversational chain for retrieval and question answering
         qa_chain = ConversationalRetrievalChain.from_llm(hf_pipeline, vectorstore.as_retriever())
