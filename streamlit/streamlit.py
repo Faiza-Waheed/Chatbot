@@ -90,7 +90,7 @@ if uploaded_file and question:
     elif llm_choice == "Hugging Face Mistral":
         # Hugging Face Mistral model
 
-        login(token=os.environ['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'])
+        login(token=st.secrets['huggingface']['api_key'])
 
         tokenizer = AutoTokenizer.from_pretrained("mistralai/Mistral-7B-v0.1")
         model = AutoModelForCausalLM.from_pretrained("mistralai/Mistral-7B-v0.1")
