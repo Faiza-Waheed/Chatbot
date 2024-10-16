@@ -2,12 +2,14 @@
 transformers
 accelerate
 huggingface-hub
+sqlite3
 
 #chroma
 chromadb
 h5py
 #keras
 
+langchain-huggingface
 langchain-community
 langchain
 
