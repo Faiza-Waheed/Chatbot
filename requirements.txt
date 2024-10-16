@@ -3,7 +3,7 @@ transformers
 accelerate
 huggingface-hub
 
-chroma
+#chroma
 chromadb
 h5py
 #keras
