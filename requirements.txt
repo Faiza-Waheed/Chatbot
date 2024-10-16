@@ -3,6 +3,7 @@ keras
 markdown-it-py
 matplotlib-inline
 numpy
+openai
 opencv-python-headless
 pandas
 pdf2image

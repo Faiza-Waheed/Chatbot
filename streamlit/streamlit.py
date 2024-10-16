@@ -16,7 +16,6 @@ from collections import Counter
 import time
 import pdf2image
 from pdf2image import convert_from_bytes
-from prediction_resnet import process_image
 
 
 from openai import OpenAI
