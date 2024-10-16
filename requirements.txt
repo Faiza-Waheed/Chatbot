@@ -1,3 +1,7 @@
+# Hugging Face dependencies
+transformers
+accelerate
+
 chroma
 h5py
 #keras
@@ -29,6 +33,4 @@ toml
 #torch
 #torchvision
 
-# Hugging Face dependencies
-transformers
-accelerate
+
