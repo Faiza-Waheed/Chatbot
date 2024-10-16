@@ -7,6 +7,7 @@ from langchain_community.vectorstores import Chroma
 from langchain.chains import ConversationalRetrievalChain
 from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
 from openai import OpenAI
+from io import BytesIO
 import os
 
 # Sidebar section
@@ -39,7 +40,9 @@ if uploaded_file and question:
     # Load the document based on the file type
     file_type = uploaded_file.name.split(".")[-1]
     if file_type == "pdf":
-        loader = PyPDFLoader(uploaded_file)
+        #loader = PyPDFLoader(uploaded_file)
+        pdf_file = BytesIO(uploaded_file.read())
+        loader = PyPDFLoader(pdf_file)
     elif file_type == "txt":
         loader = TextLoader(uploaded_file)
     elif file_type == "md":
