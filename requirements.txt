@@ -1,6 +1,7 @@
 # Hugging Face dependencies
 transformers
 accelerate
+huggingface-hub
 
 chroma
 h5py

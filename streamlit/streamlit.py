@@ -10,6 +10,7 @@ from openai import OpenAI
 import os
 from io import BytesIO
 import tempfile
+from huggingface_hub import login
 
 
 # Sidebar section
@@ -88,6 +89,9 @@ if uploaded_file and question:
 
     elif llm_choice == "Hugging Face Mistral":
         # Hugging Face Mistral model
+
+        login(token=os.environ['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'])
+
         tokenizer = AutoTokenizer.from_pretrained("mistralai/Mistral-7B-v0.1")
         model = AutoModelForCausalLM.from_pretrained("mistralai/Mistral-7B-v0.1")
 
