@@ -1,6 +1,6 @@
 import streamlit as st
 from langchain_community.document_loaders import PyPDFLoader, TextLoader #, MarkdownLoader
-from langchain.text_splitter import CharacterTextSplitter
+from langchain_text_splitters import CharacterTextSplitter
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.llms import HuggingFacePipeline
 from langchain_community.vectorstores import Chroma
@@ -92,8 +92,8 @@ if uploaded_file and question:
 
         login(token=st.secrets['huggingface']['api_key'])
 
-        tokenizer = AutoTokenizer.from_pretrained("mistralai/Mistral-7B-v0.1")
-        model = AutoModelForCausalLM.from_pretrained("mistralai/Mistral-7B-v0.1")
+        tokenizer = AutoTokenizer.from_pretrained("TinyLlama/TinyLlama-1.1B-Chat-v1.0")
+        model = AutoModelForCausalLM.from_pretrained("TinyLlama/TinyLlama-1.1B-Chat-v1.0")
 
         # Create a pipeline for generating responses
         hf_pipeline = pipeline("text-generation", model=model, tokenizer=tokenizer)
