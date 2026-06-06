@@ -4,7 +4,7 @@ from langchain_text_splitters import CharacterTextSplitter
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.llms import HuggingFacePipeline
 from langchain_community.vectorstores import Chroma
-from langchain.chains import ConversationalRetrievalChain
+from langchain_chains import ConversationalRetrievalChain
 from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
 from openai import OpenAI
 import os
