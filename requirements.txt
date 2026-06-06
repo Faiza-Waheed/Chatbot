@@ -8,9 +8,10 @@ chromadb
 h5py
 #keras
 
+langchain
 langchain-huggingface
 langchain-community
-langchain
+
 
 markdown-it-py
 #matplotlib-inline
