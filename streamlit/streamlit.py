@@ -4,7 +4,8 @@ from langchain_text_splitters import CharacterTextSplitter
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.llms import HuggingFacePipeline
 from langchain_community.vectorstores import Chroma
-from langchain.chains import ConversationalRetrievalChain
+#from langchain.chains import ConversationalRetrievalChain
+from langchain.chains.retrieval_qa.base import RetrievalQA
 from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
 from openai import OpenAI
 import os
@@ -103,8 +104,15 @@ if uploaded_file and question:
         vectorstore = Chroma.from_documents(docs, embeddings)
 
         # Create the conversational chain for retrieval and question answering
-        qa_chain = ConversationalRetrievalChain.from_llm(hf_pipeline, vectorstore.as_retriever())
+        #qa_chain = ConversationalRetrievalChain.from_llm(hf_pipeline, vectorstore.as_retriever())
+        qa_chain = RetrievalQA.from_chain_type(
+            llm=llm,
+            retriever=vectorstore.as_retriever(),
+            chain_type="stuff"
+        )
 
+        answer = qa_chain.run(question)
+        
         # Ask the question to the chatbot
         response = qa_chain({"question": question, "chat_history": []})
 
